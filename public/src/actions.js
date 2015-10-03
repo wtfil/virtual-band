@@ -2,7 +2,7 @@ import Peer from 'web-peer';
 import Firebase from 'firebase';
 import io from 'socket.io-client';
 
-const getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia).bind(navigator);
+const getUserMedia = (navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia).bind(navigator);
 const socket = io.connect(window.location.host);
 
 export const ASK_MIC = 'ASK_MIC';
@@ -36,6 +36,7 @@ export function startPeer() {
 		peer.on('stream', stream => {
 			dispatch({type: INCOMING_STREAM, stream});
 		});
+		peer.on('error', console.error);
 
 		dispatch({type: PEER_ADDED, peer});
 	}
