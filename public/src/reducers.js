@@ -1,6 +1,7 @@
 import {
 	MIC_ENABLED,
 	PEER_ADDED,
+	PEER_DISCONNECTED,
 	INCOMING_STREAM
 } from './actions';
 
@@ -25,6 +26,9 @@ export function audio(state = INITIAL_AUDIO, action) {
 			...state,
 			remoteStreams: [...state.remoteStreams, action.stream]
 		};
+	case PEER_DISCONNECTED:
+		return {...state, remoteStreams: []}; // TODO handle peers
+
 	default:
 		return state;
 	}
@@ -34,6 +38,8 @@ export function bands(state = INITIAL_BANDS, action) {
 	switch (action.type) {
 	case PEER_ADDED:
 		return {...state, peers: [...state.peers, action.peer]};
+	case PEER_DISCONNECTED:
+		return {...state, peers: []}; // TODO handle peers
 	default:
 		return state;
 	}

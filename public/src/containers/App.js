@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {startPeer, requestAudio} from '../actions';
+import PlayAudio from '../components/PlayAudio';
 
 let App = React.createClass({
 
@@ -11,8 +12,13 @@ let App = React.createClass({
 		const {audio} = this.props;
 
 		return <div className="well">
-			{audio.enabled ?
-				<span>Remote streams: {audio.remoteStreams.length}</span> :
+			<span>Remote streams: {audio.remoteStreams.length}</span>
+			<div>
+				{audio.remoteStreams.map((stream, index) => {
+					return <PlayAudio key={index} stream={stream} play/>
+				})}
+			</div>
+			{!audio.enabled &&
 				<button
 					className="btn btn-primary"
 					children="Enable mic"

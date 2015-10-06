@@ -10,6 +10,7 @@ export const MIC_ENABLED = 'MIC_ENABLED';
 export const MIC_ERROR = 'MIC_ERROR';
 export const PEER_ADDED = 'PEER_ADDED';
 export const INCOMING_STREAM = 'INCOMING_STREAM';
+export const PEER_DISCONNECTED = 'PEER_DISCONNECTED';
 
 export function requestAudio() {
 	return (dispatch, getState) => {
@@ -36,6 +37,9 @@ export function startPeer() {
 		peer.on('stream', stream => {
 			dispatch({type: INCOMING_STREAM, stream});
 		});
+		peer.on('disconnect', () => {
+			dispatch({type: PEER_DISCONNECTED});
+		})
 		peer.on('error', console.error);
 
 		dispatch({type: PEER_ADDED, peer});
